@@ -48,8 +48,8 @@ if __name__ == '__main__':
     try:
         #dl_path = get_dl_path(dl_dir)
         inv = Inventory(get_dl_path(dl_dir))
-        inv.cycle_count(inv_list, search)
-        #inv.report(inv_report)
+        #inv.cycle_count(inv_list, search)
+        inv.report(inv_report)
     except ValueError:
         print('Forgot to download the csv file...')
 

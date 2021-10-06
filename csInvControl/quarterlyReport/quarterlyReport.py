@@ -193,7 +193,7 @@ def highlight_row(row):
 
 if __name__ == '__main__':
     #get_og_snap(og_xl, og_snap)
-    Popen(['open', str(og_snap)])
+    #Popen(['open', str(og_snap)])
 
     #get_current_snap(get_cs_path(dl_dir), sc_xl, current_snap)
     Popen(['open', str(current_snap)])

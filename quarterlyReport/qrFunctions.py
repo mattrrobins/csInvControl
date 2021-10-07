@@ -1,60 +1,20 @@
 #! python3
 
 from pathlib import Path
-from datetime import date
 from subprocess import Popen
-import pprint
 import os
 
-import pandas as pd
-import numpy as np
 from openpyxl.utils import get_column_letter
+import pandas as pd
 
-from skuMap import sku_map
-#from classes import Inventory
-from csInvControl.inventoryClasses import Inventory
+from csInvControl.inventoryClasses import Inventory, df_to_xl
 
-pd.set_option('display.max_rows', 30)
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.width', 500)
-
-today = str(date.today())
-
-dl_dir = Path.home() / Path('Downloads')
-proj_dir = Path(__file__).resolve().parents[0]
-snap_dir = Path(proj_dir, 'snapshots')
-
-og_xl = snap_dir / Path('CS HB July 12th Inventory w bulk.xlsx')
-og_snap = snap_dir / Path('Dean_Inventory_2021-07-06.xlsx')
-
-comp_path = snap_dir / Path('2021_Q2-Q3_Comparison.xlsx')
-
-sc_xl = dl_dir / Path('Products.xlsx')
-
-current_snap = snap_dir / Path('Dean_Inventory_%s.xlsx' % today)
 
 def get_cs_path(dir):
     for folder_name, subfolders, filenames in os.walk(dir):
         for filename in filenames:
             if 'CSSeattleInventory' in filename:
                 return dir / Path(filename)
-
-def df_to_xl(df, path, sheet_name, w={}):
-    col_size = []
-    col_size.append(max(df.index.astype(str).map(len)))
-    for col in df.columns:
-        m = max(max(df[col].astype(str).map(len)), len(str(col)))
-        col_size.append(m)
-    for k in w:
-        col_size[k] *= w[k]
-
-    with pd.ExcelWriter(path, mode='w', engine='openpyxl') as writer:
-        df.to_excel(writer, sheet_name)
-        ws = writer.sheets[sheet_name]
-        for i in range(1, ws.max_column + 1):
-            let = get_column_letter(i)
-            ws.column_dimensions[let].width = col_size[i - 1]
-
 
 def get_og_snap(path_in, path_out):
     cols = ['HB SKU',
@@ -92,6 +52,7 @@ def get_og_snap(path_in, path_out):
     dh.sort_index(inplace=True)
 
     df_to_xl(dh, path_out, 'Initial Inventory', {0 : 1.5})
+
 
 def get_sc_df(path):
     cats = ['WIP', 'Shipping Supplies']
@@ -174,17 +135,3 @@ def compare_snaps(old, new, path):
     pprint.pprint(df)
 
     df_to_xl(df, path, 'Q2 - Q3 Comparison', {0 : 1.5})
-
-
-
-
-if __name__ == '__main__':
-    #get_og_snap(og_xl, og_snap)
-    #Popen(['open', str(og_snap)])
-
-    #get_current_snap(get_cs_path(dl_dir), sc_xl, current_snap)
-    #Popen(['open', str(current_snap)])
-
-    #compare_snaps(og_snap, current_snap, comp_path)
-    #Popen(['open', str(comp_path)])
-    inv = Inventory(get_cs_path(dl_dir))

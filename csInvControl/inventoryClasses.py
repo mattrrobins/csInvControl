@@ -23,6 +23,8 @@ def df_to_xl(df, path, sheet_name, w={}):
             let = get_column_letter(i)
             ws.column_dimensions[let].width = col_size[i - 1]
 
+def highlight_row(row):
+    pass
 
 class Inventory:
     cols = ['Item',

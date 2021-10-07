@@ -11,7 +11,8 @@ import numpy as np
 from openpyxl.utils import get_column_letter
 
 from skuMap import sku_map
-from classes import Inventory
+#from classes import Inventory
+from csInvControl.inventoryClasses import Inventory
 
 pd.set_option('display.max_rows', 30)
 pd.set_option('display.max_columns', 500)
@@ -196,7 +197,8 @@ if __name__ == '__main__':
     #Popen(['open', str(og_snap)])
 
     #get_current_snap(get_cs_path(dl_dir), sc_xl, current_snap)
-    Popen(['open', str(current_snap)])
+    #Popen(['open', str(current_snap)])
 
-    compare_snaps(og_snap, current_snap, comp_path)
-    Popen(['open', str(comp_path)])
+    #compare_snaps(og_snap, current_snap, comp_path)
+    #Popen(['open', str(comp_path)])
+    inv = Inventory(get_cs_path(dl_dir))

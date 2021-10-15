@@ -30,12 +30,16 @@ cat_map = {'Finished Goods' : 'Finished Goods',
            'Stickers' : 'Labels',
            'Essential Oils' : 'Raw Materials',
            'Dry Goods' : 'Raw Materials',
-           'Carriers' : 'Raw Materials'}
+           'Carriers' : 'Raw Materials',
+           'Shipping Boxes' : 'Shipping Boxes',
+           'Case Packs' : 'Case Packs',
+           'Partitions' : 'Partitions'}
 
 def xl_to_df(path):
     xl = pd.ExcelFile(path)
     sheets = xl.sheet_names
     cols = ['HB SKU',
+            'SC Part Number',
             'Description',
             'Category']
     df = pd.concat([pd.read_excel(xl, sheet_name=s)

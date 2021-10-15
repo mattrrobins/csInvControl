@@ -1,11 +1,16 @@
 #! python3
 
-import pandas as pd
-import pprint
 from subprocess import Popen
+import pprint
+
 from openpyxl.utils import get_column_letter
+import pandas as pd
 
 pd.options.mode.chained_assignment = None  # default='warn
+
+pd.set_option('display.max_rows', 30)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 500)
 
 def df_to_xl(df, path, sheet_name, w={}):
     col_size = []
@@ -35,6 +40,12 @@ class Inventory:
             'Bin Number',
             'Inventory Number']
 
+    col_map = {'Display Name' : 'Description',
+               'On Hand' : 'Quantity',
+               'Item Category' : 'Category',
+               'Bin Number' : 'Bin',
+               'Inventory Number' : 'Lot Code'}
+
     def __init__(self, path):
         self.raw = pd.read_csv(path)
 
@@ -42,7 +53,7 @@ class Inventory:
         pprint.pprint(self.raw)
 
     def report(self):
-        del self.cols[5]
+        del self.cols[-2:]
         df_raw = self.raw[self.cols]
         df_raw.set_index(self.cols.pop(0), inplace=True)
 

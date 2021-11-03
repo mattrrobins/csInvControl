@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 from openpyxl.utils import get_column_letter
 
+from csInvControl.inventoryClasses import df_to_xl
 
 proj_dir = Path(__file__).resolve().parents[1]
 ml_dir = proj_dir / Path('herbivoreMasterList')
@@ -36,6 +37,10 @@ cat_map = {'Finished Goods' : 'Finished Goods',
            'Partitions' : 'Partitions'}
 
 def xl_to_df(path):
+    """
+    Pulls a .xlsx file and converts to the information into a more condensed
+    .xlsx file for distribution relating the two companies SKUs to each other.
+    """
     xl = pd.ExcelFile(path)
     sheets = xl.sheet_names
     cols = ['HB SKU',
@@ -50,26 +55,8 @@ def xl_to_df(path):
 
     return df
 
-def df_to_xl(df, path, sheet_name, w={}):
-    col_size = []
-    col_size.append(max(df.index.astype(str).map(len)))
-    for col in df.columns:
-        m = max(max(df[col].astype(str).map(len)), len(str(col)))
-        col_size.append(m)
-    for k in w:
-        col_size[k] *= w[k]
 
-    with pd.ExcelWriter(path, mode='w', engine='openpyxl') as writer:
-        df.to_excel(writer, sheet_name)
-        ws = writer.sheets[sheet_name]
-        for i in range(1, ws.max_column + 1):
-            let = get_column_letter(i)
-            ws.column_dimensions[let].width = col_size[i - 1]
-
-
-
-
-df = xl_to_df(hml_xl)
-df_to_xl(df, sku_xl, 'HB SKU to CS Item Map', {1 : 1.5})
-Popen(['open', sku_xl])
-pprint.pprint(df)
+if __name__ == '__main__':
+    df = xl_to_df(hml_xl)
+    df_to_xl(df, sku_xl, 'HB SKU to CS Item Map', {1 : 1.5})
+    Popen(['open', sku_xl])

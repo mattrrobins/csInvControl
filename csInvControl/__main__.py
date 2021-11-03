@@ -44,7 +44,7 @@ comp_loc = ['DIHALL', 'LabRec', 'FRIDGE',
 shipp_loc = ['SBOX', 'SMISC']
 
 
-#search = floor_loc[0:1]
+
 search = aisle_loc[2:3]
 
 if __name__ == '__main__':
@@ -52,6 +52,5 @@ if __name__ == '__main__':
         inv = Inventory(get_dl_path(dl_dir))
         #inv.cycle_count(inv_list, search)
         inv.report_xl(inv_report)
-        #pprint.pprint(inv.report())
     except ValueError:
         print('Forgot to download the csv file...')

@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import date
 import sys
 
-from functions import *
+from moduleQR import *
 
 dl_dir = Path.home() / Path('Downloads')
 proj_dir = Path(__file__).resolve().parents[1]
@@ -13,7 +13,7 @@ proj_dir = Path(__file__).resolve().parents[1]
 sku_map_path = proj_dir / Path('masterLists', 'herbivoreMasterList',
                                 'unofficial_sku_map.xlsx')
 
-snap_dir = proj_dir / Path('quarterlyReport', 'snapshots')
+snap_dir = proj_dir / Path('quarterlyReports', 'snapshots')
 today = str(date.today())
 cur_snap = 'Dean_Inventory_%s.xlsx' % today
 cur_snap_path = snap_dir / Path(cur_snap)

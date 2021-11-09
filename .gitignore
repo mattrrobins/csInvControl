@@ -1,6 +1,10 @@
 # .gitignore
+
 __pycache__
 .DS_Store
+InvControl.egg-info
 herbivoreMasterList
-snapshots
-csInvControl.egg-info
+pyproject.toml
+
+# Ignore .xlsx files
+*.xlsx

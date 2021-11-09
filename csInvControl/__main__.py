@@ -3,14 +3,25 @@
 from pathlib import Path
 import sys
 import os
+import time
 import pprint
-from inventoryClasses import Inventory
 
-def get_dl_path(dir):
+from src.moduleInv import Inventory
+
+def get_ns_path(dir):
+    """
+    Searches the Downloads directory for the .csv Inventory file
+    downloaded directly from NetSuite, and chooses the most recent file created.
+    """
+    paths = []
     for folder_name, subfolders, filenames in os.walk(dir):
         for filename in filenames:
             if 'CSSeattleInventory' in filename:
-                return dir / Path(filename)
+                ti_c = os.path.getctime(dir / Path(filename))
+                c_ti = time.ctime(ti_c)
+                path = dir / Path(filename)
+                paths.append((path, ti_c, c_ti))
+    return sorted(paths, key=lambda x: x[1])[-1][0]
 
 def search_check(searches):
     better_searches = []
@@ -45,11 +56,11 @@ shipp_loc = ['SBOX', 'SMISC']
 
 
 
-search = aisle_loc[2:3]
+search = floor_loc[:-1]
 
 if __name__ == '__main__':
     try:
-        inv = Inventory(get_dl_path(dl_dir))
+        inv = Inventory(get_ns_path(dl_dir))
         #inv.cycle_count(inv_list, search)
         inv.report_xl(inv_report)
     except ValueError:

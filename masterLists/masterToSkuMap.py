@@ -2,15 +2,13 @@
 
 from pathlib import Path
 from subprocess import Popen
-import pprint
 
-import pandas as pd
-import numpy as np
 from openpyxl.utils import get_column_letter
+import pandas as pd
 
-from csInvControl.inventoryClasses import df_to_xl
+from src.moduleInv import df_to_xl
 
-proj_dir = Path(__file__).resolve().parents[1]
+proj_dir = Path(__file__).resolve().parents[0]
 ml_dir = proj_dir / Path('herbivoreMasterList')
 hml_xl = Path(ml_dir, 'herbivore_master_list.xlsx')
 sku_xl = Path(ml_dir, 'unofficial_sku_map.xlsx')

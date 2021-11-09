@@ -11,7 +11,7 @@ from openpyxl.utils import get_column_letter
 import datefinder
 import pandas as pd
 
-from csInvControl.inventoryClasses import Inventory, df_to_xl
+from src.moduleInv import Inventory, df_to_xl
 
 # pandas settings to display better output in shell
 pd.set_option('display.max_rows', 30)
@@ -106,7 +106,7 @@ def snap_to_df(paths):
                  '11' : 'Q4',
                  '12' : 'Q4'}
     dfs = []
-    for path in paths:
+    for path in sorted(paths):
         date_raw = list(datefinder.find_dates(str(path)))[0]
         year = date_raw.strftime('%Y')
         month = date_raw.strftime('%m')
